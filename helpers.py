@@ -1,6 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import os
 import re
 import time
 import unicodedata
@@ -43,3 +44,18 @@ def unicode_to_ascii(s):
     return char_list
 
 
+def validate_language(l):
+    if not os.path.exists('data/{}.txt'.format(l)):
+        url = 'http://www.manythings.org/anki/'
+        print("{}.txt does not exist in the data directory. Please go to '{}' and download the data set.".format(l, url))
+        exit(1)
+
+
+def validate_language_params(l):
+    is_missing = (not os.path.exists('data/attention_params_{}'.format(l))
+                  or not os.path.exists('data/decoder_params_{}'.format(l))
+                  or not os.path.exists('data/encoder_params_{}'.format(l)))
+
+    if is_missing:
+        print("Model params for language '{}' do not exist in the data directory. Please train a new model for this language.".format(l))
+        exit(1)

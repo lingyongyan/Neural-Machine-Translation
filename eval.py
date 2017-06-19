@@ -1,20 +1,21 @@
 import argparse
 import etl
 import helpers
-import os
 import torch
 from attention_decoder import AttentionDecoderRNN
-from encoder_rnn import EncoderRNN
+from encoder import EncoderRNN
 from language import Language
 from torch.autograd import Variable
 
 
 # Parse argument for input sentence
 parser = argparse.ArgumentParser()
+parser.add_argument('language')
 parser.add_argument('input')
 args = parser.parse_args()
+helpers.validate_language_params(args.language)
 
-input_lang, output_lang, pairs = etl.prepare_data('spa')
+input_lang, output_lang, pairs = etl.prepare_data(args.language)
 attn_model = 'general'
 hidden_size = 500
 n_layers = 2
@@ -24,16 +25,10 @@ dropout_p = 0.05
 encoder = EncoderRNN(input_lang.n_words, hidden_size, n_layers)
 decoder = AttentionDecoderRNN(attn_model, hidden_size, output_lang.n_words, n_layers, dropout_p=dropout_p)
 
-is_missing_params = (not os.path.exists('data/attention_params')
-                     or not os.path.exists('data/decoder_params')
-                     or not os.path.exists('data/encoder_params'))
-if is_missing_params:
-    print('Model parameters were not found. Please train a new seq2seq model.')
-    exit(1)
-else:
-    encoder.load_state_dict(torch.load('data/encoder_params'))
-    decoder.load_state_dict(torch.load('data/decoder_params'))
-    decoder.attention.load_state_dict(torch.load('data/attention_params'))
+# Load model parameters
+encoder.load_state_dict(torch.load('data/encoder_params_{}'.format(args.language)))
+decoder.load_state_dict(torch.load('data/decoder_params_{}'.format(args.language)))
+decoder.attention.load_state_dict(torch.load('data/attention_params_{}'.format(args.language)))
 
 # Move models to GPU
 encoder.cuda()

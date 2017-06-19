@@ -1,3 +1,4 @@
+import argparse
 import etl
 import helpers
 import random
@@ -7,8 +8,13 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 from attention_decoder import AttentionDecoderRNN
-from encoder_rnn import EncoderRNN
+from encoder import EncoderRNN
 
+# Parse argument for language to train
+parser = argparse.ArgumentParser()
+parser.add_argument('language')
+args = parser.parse_args()
+helpers.validate_language(args.language)
 
 teacher_forcing_ratio = .5
 clip = 5.
@@ -73,7 +79,7 @@ def train(input_var, target_var, encoder, decoder, encoder_opt, decoder_opt, cri
 
     return loss.data[0] / target_length
 
-input_lang, output_lang, pairs = etl.prepare_data('spa')
+input_lang, output_lang, pairs = etl.prepare_data(args.language)
 
 attn_model = 'general'
 hidden_size = 500
@@ -95,7 +101,7 @@ decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate)
 criterion = nn.NLLLoss()
 
 # Configuring training
-n_epochs = 50000
+n_epochs = 100000
 plot_every = 200
 print_every = 1000
 
@@ -136,9 +142,9 @@ for epoch in range(1, n_epochs + 1):
 
 
 # Save our models
-torch.save(encoder.state_dict(), 'data/encoder_params')
-torch.save(decoder.state_dict(), 'data/decoder_params')
-torch.save(decoder.attention.state_dict(), 'data/attention_params')
+torch.save(encoder.state_dict(), 'data/encoder_params_{}'.format(args.language))
+torch.save(decoder.state_dict(), 'data/decoder_params_{}'.format(args.language))
+torch.save(decoder.attention.state_dict(), 'data/attention_params_{}'.format(args.language))
 
 # Plot loss
 helpers.show_plot(plot_losses)
