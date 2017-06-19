@@ -8,7 +8,7 @@ class Language:
 
     def index_words(self, sentence):
         for word in sentence.split(' '):
-            self.index(word)
+            self.index_word(word)
 
     def index_word(self, word):
         if word not in self.word2index:
