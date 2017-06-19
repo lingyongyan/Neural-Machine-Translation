@@ -20,6 +20,7 @@ class Attention(nn.Module):
             self.attention = nn.Linear(self.hidden_size * 2, self.hidden_size)
             self.other = nn.Parameter(torch.FloatTensor(1, self.hidden_size))
 
+    # Attend all encoder inputs conditioned on the previous hidden state of the decoder
     def forward(self, hidden, encoder_outputs):
         seq_len = len(encoder_outputs)
 
@@ -34,6 +35,7 @@ class Attention(nn.Module):
         # Normalize energies to weights in range 0 to 1, resize to 1 x 1 x seq_len
         return F.softmax(attention_energies).unsqueeze(0).unsqueeze(0)
 
+    # Calculate the relevance of a particular encoder output in respect to the decoder hidden
     def score(self, hidden, encoder_output):
 
         if self.method == 'dot':

@@ -37,7 +37,7 @@ class AttentionDecoderRNN(nn.Module):
         attention_weights = self.attention(rnn_output.squeeze(0), encoder_outputs)
         context = attention_weights.bmm(encoder_outputs.transpose(0, 1))
 
-        # Final output layer (next word prediction using rnn hidden state and context vector
+        # Final output layer (next word prediction using rnn hidden state and context vector)
         rnn_output = rnn_output.squeeze(0)
         context = context.squeeze(1)
         output = F.log_softmax(self.out(torch.cat((rnn_output, context), 1)))
