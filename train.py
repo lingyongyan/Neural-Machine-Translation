@@ -6,8 +6,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-from attention_decoder import  AttentionDecoderRNN
+from attention_decoder import AttentionDecoderRNN
 from encoder_rnn import EncoderRNN
+
 
 teacher_forcing_ratio = .5
 clip = 5.
@@ -133,3 +134,11 @@ for epoch in range(1, n_epochs + 1):
         plot_losses.append(plot_loss_avg)
         plot_loss_total = 0
 
+
+# Save our models
+torch.save(encoder.state_dict(), 'data/encoder_params')
+torch.save(decoder.state_dict(), 'data/decoder_params')
+torch.save(decoder.attention.state_dict(), 'data/attention_params')
+
+# Plot loss
+helpers.show_plot(plot_losses)

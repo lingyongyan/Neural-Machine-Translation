@@ -72,7 +72,7 @@ def variable_from_sentence(lang, sentence):
     indexes = indexes_from_sentence(lang, sentence)
     indexes.append(EOS_TOKEN)
     var = Variable(torch.LongTensor(indexes).view(-1, 1))
-    if USE_CUDA: var = var.cuda()
+    var = var.cuda()
     return var
 
 
