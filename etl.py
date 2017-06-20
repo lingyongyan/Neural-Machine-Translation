@@ -3,10 +3,6 @@ import torch
 from language import Language
 from torch.autograd import Variable
 
-SOS_TOKEN = 1
-EOS_TOKEN = 1
-USE_CUDA = True
-
 """
 Data Extraction
 """
@@ -70,7 +66,7 @@ def indexes_from_sentence(lang, sentence):
 
 def variable_from_sentence(lang, sentence):
     indexes = indexes_from_sentence(lang, sentence)
-    indexes.append(EOS_TOKEN)
+    indexes.append(1)
     var = Variable(torch.LongTensor(indexes).view(-1, 1))
     var = var.cuda()
     return var
