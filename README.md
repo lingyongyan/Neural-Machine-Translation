@@ -8,7 +8,7 @@ It uses tab-delimited bilingual sentence pairs acquired from [here](http://www.m
 #### Implementation Architecture
 
 The model is trained end-to-end using *[stacked RNNs](https://cs224d.stanford.edu/reports/Lambert.pdf)* for sequence encoding and decoding.
-The decoder is additionally conditioned on a context vector for predicting the next constituent token in the sequence. This vector is computed using an *[attention mechnism](https://www.quora.com/What-is-Attention-Mechanism-in-Neural-Networks)* at each time step. Intuitively, the decoder is attempting to leverage information conglomerated by the encoder by deciding the relevancy of each encoding at each time step of the decoding process.
+The decoder is additionally conditioned on a context vector for predicting the next constituent token in the sequence. This vector is computed using an *[attention mechanism](https://www.quora.com/What-is-Attention-Mechanism-in-Neural-Networks)* at each time step. Intuitively, the decoder is attempting to leverage information conglomerated by the encoder by deciding the relevancy of each encoding at each time step of the decoding process.
 
 ## Results
 
@@ -50,13 +50,13 @@ The decoder is additionally conditioned on a context vector for predicting the n
 To train a new language model invoke *train.py* with the desired language abbreviation you would like to translate english to. For instance, spanish can be translated to by specifying 'spa' as input. 'spa-eng.txt' in the data directory will be used. Other languages can be acquired from [here](http://www.manythings.org/anki/).
 
 ```
-python train.py 'langname'
+python train.py langname
 ```
 
 To translate an input sequence in english into another language, invoke *eval.py* and specify the desired language and sentence. The program will exit if the language model parameters are not found in the data directory or if the language prefix is mistyped.
 
 ```
-python eval.py 'langname' 'some english words'
+python eval.py langname 'some english words'
 ```
 
 ## Files

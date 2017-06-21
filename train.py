@@ -20,7 +20,7 @@ teacher_forcing_ratio = .5
 clip = 5.
 
 
-def train(input_var, target_var, encoder, decoder, encoder_opt, decoder_opt, criterion, max_length=10):
+def train(input_var, target_var, encoder, decoder, encoder_opt, decoder_opt, criterion):
     # Initialize optimizers and loss
     encoder_opt.zero_grad()
     decoder_opt.zero_grad()

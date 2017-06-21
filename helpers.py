@@ -45,7 +45,11 @@ def unicode_to_ascii(s):
 
 
 def validate_language(l):
-    if not os.path.exists('data/{}.txt'.format(l)):
+    p = 'data/{}.txt'.format(l)
+    p = os.path.abspath(p)
+    print(p)
+
+    if not os.path.exists(p):
         url = 'http://www.manythings.org/anki/'
         print("{}.txt does not exist in the data directory. Please go to '{}' and download the data set.".format(l, url))
         exit(1)

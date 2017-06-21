@@ -35,6 +35,8 @@ class AttentionDecoderRNN(nn.Module):
 
         # Calculate attention from current RNN state and all encoder outputs
         attention_weights = self.attention(rnn_output.squeeze(0), encoder_outputs)
+        s1 = attention_weights.size()
+        s2 = encoder_outputs.size()
         context = attention_weights.bmm(encoder_outputs.transpose(0, 1))
 
         # Final output layer (next word prediction using rnn hidden state and context vector)
