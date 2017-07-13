@@ -7,19 +7,12 @@ from torch.autograd import Variable
 Data Extraction
 """
 
-max_length = 10
-
-good_prefixes = (
-    "i am ", "i m ",
-    "he is", "he s ",
-    "she is", "she s",
-    "you are", "you re "
-)
+max_length = 20
 
 
 def filter_pair(p):
     is_good_length = len(p[0].split(' ')) < max_length and len(p[1].split(' ')) < max_length
-    return is_good_length and p[0].startswith(good_prefixes)
+    return is_good_length
 
 
 def filter_pairs(pairs):
