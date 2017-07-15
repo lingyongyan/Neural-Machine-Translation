@@ -26,9 +26,9 @@ encoder = EncoderRNN(input_lang.n_words, hidden_size, n_layers)
 decoder = AttentionDecoderRNN(attn_model, hidden_size, output_lang.n_words, n_layers, dropout_p=dropout_p)
 
 # Load model parameters
-encoder.load_state_dict(torch.load('data/encoder_params_{}'.format(args.language)))
-decoder.load_state_dict(torch.load('data/decoder_params_{}'.format(args.language)))
-decoder.attention.load_state_dict(torch.load('data/attention_params_{}'.format(args.language)))
+encoder.load_state_dict(torch.load('../data/encoder_params_{}'.format(args.language)))
+decoder.load_state_dict(torch.load('../data/decoder_params_{}'.format(args.language)))
+decoder.attention.load_state_dict(torch.load('../data/attention_params_{}'.format(args.language)))
 
 # Move models to GPU
 encoder.cuda()

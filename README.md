@@ -65,30 +65,30 @@ python eval.py langname 'some english words'
 
     Attention nn module that is responsible for computing the alignment scores.
 
-* [attention_decoder.py](attention_decoder.py)
+* [attention_decoder.py](src/attention_decoder.py)
 
     Recurrent neural network that makes use of gated recurrent units to translate encoded inputs using attention.
 
-* [encoder.py](encoder.py)
+* [encoder.py](src/encoder.py)
 
     Recurrent neural network that encodes a given input sequence.
 
-* [etl.py](etl.py)
+* [etl.py](src/etl.py)
 
     Helper functions for data extraction, transformation, and loading.
 
-* [eval.py](eval.py)
+* [eval.py](src/eval.py)
 
     Script for evaluating the sequence-to-sequence model.
 
-* [helpers.py](helpers.py)
+* [helpers.py](src/helpers.py)
 
     General helper functions.
 
-* [language.py](language.py)
+* [language.py](src/language.py)
 
     Class that keeps record of some corpus. Attributes such as vocabulary counts and tokens are stored within instances of this class.
 
-* [train.py](train.py)
+* [train.py](src/train.py)
 
     Script for training a new sequence-to-sequence model.

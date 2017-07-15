@@ -45,7 +45,7 @@ def unicode_to_ascii(s):
 
 
 def validate_language(l):
-    p = 'data/{}.txt'.format(l)
+    p = '../data/{}.txt'.format(l)
     p = os.path.abspath(p)
     print(p)
 
@@ -56,9 +56,9 @@ def validate_language(l):
 
 
 def validate_language_params(l):
-    is_missing = (not os.path.exists('data/attention_params_{}'.format(l))
-                  or not os.path.exists('data/decoder_params_{}'.format(l))
-                  or not os.path.exists('data/encoder_params_{}'.format(l)))
+    is_missing = (not os.path.exists('../data/attention_params_{}'.format(l))
+                  or not os.path.exists('../data/decoder_params_{}'.format(l))
+                  or not os.path.exists('../data/encoder_params_{}'.format(l)))
 
     if is_missing:
         print("Model params for language '{}' do not exist in the data directory. Please train a new model for this language.".format(l))

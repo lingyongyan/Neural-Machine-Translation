@@ -142,9 +142,9 @@ for epoch in range(1, n_epochs + 1):
 
 
 # Save our models
-torch.save(encoder.state_dict(), 'data/encoder_params_{}'.format(args.language))
-torch.save(decoder.state_dict(), 'data/decoder_params_{}'.format(args.language))
-torch.save(decoder.attention.state_dict(), 'data/attention_params_{}'.format(args.language))
+torch.save(encoder.state_dict(), '../data/encoder_params_{}'.format(args.language))
+torch.save(decoder.state_dict(), '../data/decoder_params_{}'.format(args.language))
+torch.save(decoder.attention.state_dict(), '../data/attention_params_{}'.format(args.language))
 
 # Plot loss
 helpers.show_plot(plot_losses)

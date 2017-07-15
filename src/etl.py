@@ -36,7 +36,7 @@ def prepare_data(lang_name):
 def read_languages(lang):
 
     # Read and parse the text file
-    doc = open('data/%s.txt' % lang).read()
+    doc = open('../data/%s.txt' % lang).read()
     lines = doc.strip().split('\n')
 
     # Transform the data and initialize language instances
