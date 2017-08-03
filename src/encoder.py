@@ -4,9 +4,10 @@ from torch.autograd import Variable
 
 
 class EncoderRNN(nn.Module):
+    """Recurrent neural network that encodes a given input sequence."""
+
     def __init__(self, input_size, hidden_size, n_layers=1):
         super(EncoderRNN, self).__init__()
-
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.n_layers = n_layers

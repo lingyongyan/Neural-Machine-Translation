@@ -27,7 +27,6 @@ def train(input_var, target_var, encoder, decoder, encoder_opt, decoder_opt, cri
     loss = 0
 
     # Get input and target seq lengths
-    input_length = input_var.size()[0]
     target_length = target_var.size()[0]
 
     # Run through encoder

@@ -5,48 +5,49 @@ from torch.autograd import Variable
 
 
 class Attention(nn.Module):
-    def __init__(self, method, hidden_size, max_length=10):
-        super(Attention, self).__init__()
+    """Attention nn module that is responsible for computing the alignment scores."""
 
-        # Keep parameters
+    def __init__(self, method, hidden_size):
+        super(Attention, self).__init__()
         self.method = method
         self.hidden_size = hidden_size
 
         # Define layers
         if self.method == 'general':
             self.attention = nn.Linear(self.hidden_size, self.hidden_size)
-
         elif self.method == 'concat':
             self.attention = nn.Linear(self.hidden_size * 2, self.hidden_size)
             self.other = nn.Parameter(torch.FloatTensor(1, self.hidden_size))
 
-    # Attend all encoder inputs conditioned on the previous hidden state of the decoder
     def forward(self, hidden, encoder_outputs):
+        """Attend all encoder inputs conditioned on the previous hidden state of the decoder.
+        
+        After creating variables to store the attention energies, calculate their 
+        values for each encoder output and return the normalized values.
+        
+        Args:
+            hidden: decoder hidden output used for condition
+            encoder_outputs: list of encoder outputs
+            
+        Returns:
+             Normalized (0..1) energy values, re-sized to 1 x 1 x seq_len
+        """
+
         seq_len = len(encoder_outputs)
-
-        # Create variables to store the attention energies
-        attention_energies = Variable(torch.zeros(seq_len))
-        attention_energies = attention_energies.cuda()
-
-        # Calculate energies for each encoder output
+        energies = Variable(torch.zeros(seq_len)).cuda()
         for i in range(seq_len):
-            attention_energies[i] = self.score(hidden, encoder_outputs[i])
+            energies[i] = self._score(hidden, encoder_outputs[i])
+        return F.softmax(energies).unsqueeze(0).unsqueeze(0)
 
-        # Normalize energies to weights in range 0 to 1, resize to 1 x 1 x seq_len
-        return F.softmax(attention_energies).unsqueeze(0).unsqueeze(0)
-
-    # Calculate the relevance of a particular encoder output in respect to the decoder hidden
-    def score(self, hidden, encoder_output):
+    def _score(self, hidden, encoder_output):
+        """Calculate the relevance of a particular encoder output in respect to the decoder hidden."""
 
         if self.method == 'dot':
             energy = hidden.dot(encoder_output)
-
         elif self.method == 'general':
             energy = self.attention(encoder_output)
             energy = hidden.dot(energy)
-
         elif self.method == 'concat':
             energy = self.attention(torch.cat((hidden, encoder_output), 1))
             energy = self.other.dor(energy)
-
         return energy
